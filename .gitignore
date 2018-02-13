@@ -1,6 +1,7 @@
 .idea/
 __pycache__/
 provider/__pycache__/
+storage/__pycache__/
 
 output/
 app.zip

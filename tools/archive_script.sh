@@ -18,6 +18,7 @@ zip -r9 ${PROJECT_FOLDER}/${ARCHIVE} *
 # zip function code
 cd ${PROJECT_FOLDER}
 zip -r9 ${ARCHIVE} lambda_function.py
+zip -r9 ${ARCHIVE} storage
 # zip config file
 cd ${PROJECT_FOLDER}
 zip -r9 ${ARCHIVE} rds_config.py
