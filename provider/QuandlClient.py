@@ -21,7 +21,7 @@ class QuandlClient(StockDataProvider):
         quandl.ApiConfig.api_key = self._API_KEY
 
         if StockDataProvider._instance is not None:
-            raise Exception("This class is a singleton!")
+            raise Exception("This class is a singleton! Use method instance() instead")
         else:
             StockDataProvider._instance = self
 
