@@ -25,17 +25,15 @@ class QuandlClient(StockDataProvider):
         else:
             StockDataProvider._instance = self
 
-    def get_quote(self, ticker):
-        print("Get single daily prices of quote: " + str(ticker))
-        start_time = time.time()
-        data = self.__get_time_series_daily(ticker)
-        end_time = time.time()
-        execution_time = end_time - start_time
-
-        # print("Execution time: " + str(execution_time) + " seconds")
-        valid = StockApiClientHelper.valid_response(data)
-
-        StockApiClientHelper.write_to_csv(execution_time, valid, "S", file_name="output/output_s.csv")
+    def get_quote(self, ticker, days=7):
+        """
+        Return historical data (from current date - :param days till now) of given stock (:param ticker).
+        :param ticker: requested stock ticker symbol
+        :param days: number of days into the past to get data
+                    eg. days=7 returns stock info from today till today-7 days
+        :return: df (ticker, timestamp, open, high, low, close, volume)
+        """
+        data = self.__get_time_series_daily(ticker, days=days)
         return data
 
     def get_multiple_sequence(self, ticker_list):
@@ -77,14 +75,20 @@ class QuandlClient(StockDataProvider):
         return data
 
     # noinspection PyMethodMayBeStatic
-    def __get_time_series_daily(self, ticker):
-        start_date = datetime.date.today() - datetime.timedelta(7)
+    def __get_time_series_daily(self, ticker, days=7):
+        """
+        Get stock data for the last :param days
+        :param ticker:
+        :param days: no. of days how much historical data will be returned
+        :return:
+        """
+        start_date = datetime.date.today() - datetime.timedelta(days)
         data = quandl.get_table('WIKI/PRICES', ticker=ticker, date={'gte': start_date})
 
         data.rename(columns={'date': 'timestamp'}, inplace=True)
-        last_entry = data.iloc[-1]
+        # last_entry = data.iloc[-1]
 
-        return last_entry
+        return data
 
     # noinspection PyMethodMayBeStatic
     def __get_batch_data(self, ticker_list):

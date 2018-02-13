@@ -13,7 +13,7 @@ class StockDataProvider(ABC):
 
     # API interface
     @abstractmethod
-    def get_quote(self, ticker):
+    def get_quote(self, ticker, days=7):
         pass
 
     @abstractmethod
