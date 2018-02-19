@@ -11,11 +11,6 @@ class StorageClient(ABC):
             raise Exception("This class is a singleton and hasn't been instantiated yet!")
         return StorageClient._instance
 
-    # API interface
-    @abstractmethod
-    def _create_table(self):
-        pass
-
     # @abstractmethod
     # def save_batch(self, data):
     #     pass

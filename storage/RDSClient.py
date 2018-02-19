@@ -16,7 +16,7 @@ class RDSClient(StorageClient):
 
     @staticmethod
     def instance():
-        """ Static access method. """
+        """ Return reference to storage client, if no table exists, create it. """
         if StorageClient._instance is None:
             RDSClient()
         return StorageClient._instance
