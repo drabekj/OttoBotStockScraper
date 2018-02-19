@@ -1,6 +1,14 @@
 from provider.QuandlClient import QuandlClient
+from storage.RDSClient import RDSClient
 
 print("Test")
-provider = QuandlClient()
-data = provider.get_quote("TSLA", 100)
-print(data)
+stockClient = QuandlClient.instance()
+df = stockClient.get_test_batch()
+print(df)
+
+print("------")
+for index, row in df.iterrows():
+    print(row.id, row.employee)
+
+# dbClient = RDSClient.instance()
+# dbClient.save_batch(data="pandas data")

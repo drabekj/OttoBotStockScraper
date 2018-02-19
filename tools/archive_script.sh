@@ -3,7 +3,7 @@
 PROJECT_FOLDER=~/Documents/Developer/Python/OttoBotDaemon
 ARCHIVE=app.zip
 
-VIRTUAL_ENV=/Users/drabekj/.virtualenvs/OttoBotDaemon
+VIRTUAL_ENV=/Users/drabekj/.virtualenvs/OttoBotDaemonLambda
 DEPENDENCIES=${VIRTUAL_ENV}/lib/python3.6/site-packages
 
 # If the the archive file already exists cancel
@@ -19,8 +19,6 @@ zip -r9 ${PROJECT_FOLDER}/${ARCHIVE} *
 cd ${PROJECT_FOLDER}
 zip -r9 ${ARCHIVE} lambda_function.py
 zip -r9 ${ARCHIVE} storage
-# zip config file
-cd ${PROJECT_FOLDER}
-zip -r9 ${ARCHIVE} rds_config.py
+zip -r9 ${ARCHIVE} provider
 
 echo "Archive created"

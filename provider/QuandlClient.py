@@ -16,6 +16,11 @@ class QuandlClient(StockDataProvider):
             QuandlClient()
         return StockDataProvider._instance
 
+    def get_test_batch(self):
+        d = {'id': [11, 12], 'employee': ["Arnost", "Bohumil"]}
+        df = pd.DataFrame(data=d)
+        return df
+
     def __init__(self):
         """ Virtually private constructor. """
         quandl.ApiConfig.api_key = self._API_KEY

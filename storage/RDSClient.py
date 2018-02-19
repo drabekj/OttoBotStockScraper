@@ -1,5 +1,5 @@
 from storage.StorageClient import StorageClient
-import rds_config
+from storage import rds_config
 import logging
 import sys
 import pymysql
@@ -31,25 +31,38 @@ class RDSClient(StorageClient):
         self.logger.setLevel(logging.INFO)
         self._create_table()
 
+    def save_batch(self, df):
+        connection = self._connect()
+        try:
+            with connection.cursor() as cursor:
+                # Create a new record
+                for index, row in df.iterrows():
+                    sql = "INSERT INTO `Employee` (`EmpID`, `Name`) VALUES (%s, %s)"
+                    cursor.execute(sql, (row.id, row.employee))
+
+            connection.commit()
+        finally:
+            connection.close()
+
     def _create_table(self):
         connection = self._connect()
 
         try:
             with connection.cursor() as cursor:
                 # create table
-                cursor.execute("""CREATE TABLE IF NOT EXISTS
-                    Employee ( EmpID  int NOT NULL, Name varchar(255) NOT NULL, PRIMARY KEY (EmpID))""")
+                sql = "CREATE TABLE IF NOT EXISTS Employee ( EmpID  INT NOT NULL, Name VARCHAR(255) NOT NULL, PRIMARY KEY (EmpID))"
+                cursor.execute(sql)
                 self.logger.info("SUCCESS: Table ready")
         finally:
             connection.close()
 
     def _connect(self):
         try:
-            connection = pymysql.connect(self.rds_host, user=self.name, passwd=self.password, db=self.db_name,
-                                         connect_timeout=5)
+            connection = pymysql.connect(self.rds_host, user=self.name, passwd=self.password, db=self.db_name)
         except:
             self.logger.error("ERROR: Unexpected error: Could not connect to MySql instance.")
             sys.exit()
 
         self.logger.info("SUCCESS: Connection to RDS mysql instance succeeded")
         return connection
+
