@@ -7,7 +7,7 @@ import pymysql
 
 class RDSClient(StorageClient):
     # rds settings
-    rds_host = "ottobotdb.clccaawfuuph.eu-central-1.rds.amazonaws.com"
+    rds_host = "myottobotdb.clccaawfuuph.eu-central-1.rds.amazonaws.com"
     name = rds_config.db_username
     password = rds_config.db_password
     db_name = rds_config.db_name
@@ -31,14 +31,14 @@ class RDSClient(StorageClient):
         self.logger.setLevel(logging.INFO)
         self._create_table()
 
-    def save_batch(self, df):
+    def save_batch(self, data):
         connection = self._connect()
         try:
             with connection.cursor() as cursor:
                 # Create a new record
-                for index, row in df.iterrows():
-                    sql = "INSERT INTO `Employee` (`EmpID`, `Name`) VALUES (%s, %s)"
-                    cursor.execute(sql, (row.id, row.employee))
+                for stock_entry in data:
+                    sql = "INSERT IGNORE INTO `Stock` (`Ticker`, `Date`, `Open`, `High`, `Low`, `Close`, `Volume`, `ExDividend`, `SplitRatio`, `AdjOpen`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    cursor.execute(sql, (stock_entry[0], stock_entry[1], stock_entry[2], stock_entry[3], stock_entry[4], stock_entry[5], stock_entry[6], stock_entry[7], stock_entry[8], stock_entry[9]))
 
             connection.commit()
         finally:
@@ -50,7 +50,19 @@ class RDSClient(StorageClient):
         try:
             with connection.cursor() as cursor:
                 # create table
-                sql = "CREATE TABLE IF NOT EXISTS Employee ( EmpID  INT NOT NULL, Name VARCHAR(255) NOT NULL, PRIMARY KEY (EmpID))"
+                sql = """CREATE TABLE IF NOT EXISTS Stock (
+                        Ticker  VARCHAR(5) NOT NULL,
+                        Date VARCHAR(10) NOT NULL,
+                        Open FLOAT NOT NULL,
+                        High FLOAT NOT NULL,
+                        Low  FLOAT NOT NULL,
+                        Close FLOAT NOT NULL,
+                        Volume FLOAT NOT NULL,
+                        ExDividend FLOAT NOT NULL,
+                        SplitRatio FLOAT NOT NULL,
+                        AdjOpen FLOAT NOT NULL,
+                        PRIMARY KEY (Ticker, Date)
+                    )"""
                 cursor.execute(sql)
                 self.logger.info("SUCCESS: Table ready")
         finally:
