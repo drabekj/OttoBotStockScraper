@@ -13,6 +13,7 @@ if [ -f ${PROJECT_FOLDER}/${ARCHIVE} ]; then
 
     if [ "$1" == "-d" ]; then
         echo "Deleting existing zip archive."
+        rm ${PROJECT_FOLDER}/${ARCHIVE}
     else
         exit
     fi
