@@ -1,5 +1,8 @@
 #OttoBot Stock Scraper#
 
+##Description:##
+Lambda function triggered everyday to add the newest stock information for all ticker from Quandal API to AWS RDS database.
+
 ##Components:##
 	1) CloudWatch (trigger)
 
