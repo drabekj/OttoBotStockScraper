@@ -57,3 +57,4 @@ Lambda function triggered everyday to add the newest stock information for all t
 	ii)  ottoBotPublicSG: public security group inside ottoBotVPC for OttoBot, open SSH, HTTP and HTTPS from anywhere (0.0.0.0/0)
 	iii) ottoBotPrivateSG: private security group inside ottoBotVPC for OttoBot, open ssh from public subnet (10.0.1.0/24)
 	iv)  ottobotRDSsg: for RDS in ottoBotVPC, opens MySQL/Aurora (3306) from private subnets (ottoBotPrivateSG, 10.0.2.0, 10.0.3.0)
+		!!! opened 3306 for ottoBotPublicSG to be able to DEBUG: inspect db from EC2 in public subnet => close when finished debugging
