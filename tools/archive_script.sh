@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PROJECT_FOLDER=~/Documents/Developer/Python/OttoBotDaemon
+PROJECT_FOLDER=~/Documents/Developer/Python/Alexa/OttoBot/OttoBotStockScraper
 ARCHIVE=app.zip
 AWS_S3_BUCKET=s3://ottobotstockscraperdaemonbucket/
 
-VIRTUAL_ENV=/Users/drabekj/.virtualenvs/OttoBotDaemon
+VIRTUAL_ENV=/Users/drabekj/.virtualenvs/OttoBotStockScraper
 DEPENDENCIES=${VIRTUAL_ENV}/lib/python3.6/site-packages
 
 # If the the archive file already exists cancel
