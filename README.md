@@ -9,12 +9,14 @@ Lambda function triggered everyday to add the newest stock information for all t
 	3) AWS RDS (DB)
 	4) Quandl API (data source API)
 
-										 /- API
-										/
+                                          / API
+                                         /
+                                        /
 	CloudWatch trigger - - - > Lambda <
-									    \
-										 \- DB
-
+                                        \
+                                         \
+                                          \ DB
+			  
 ### 1) CloudWatch rule
 * role: trigger for lambda
 * name: ottobot-scrape-stock-daily
