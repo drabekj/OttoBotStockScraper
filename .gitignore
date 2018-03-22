@@ -7,3 +7,6 @@ output/
 app.zip
 test.py
 app/
+
+# secret file with DB access password
+storage/rds_config.py
