@@ -37,7 +37,7 @@ class RDSClient(StorageClient):
             with connection.cursor() as cursor:
                 # Create a new record
                 for stock_entry in data:
-                    sql = "INSERT IGNORE INTO `Stock` (`Ticker`, `Date`, `Open`, `High`, `Low`, `Close`, `Volume`, `ExDividend`, `SplitRatio`, `AdjOpen`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    sql = "INSERT IGNORE INTO `Stock` (`ticker`, `date`, `open`, `high`, `low`, `close`, `volume`, `ex_dividend`, `split_ratio`, `adj_open`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
                     cursor.execute(sql, (stock_entry[0], stock_entry[1], stock_entry[2], stock_entry[3], stock_entry[4], stock_entry[5], stock_entry[6], stock_entry[7], stock_entry[8], stock_entry[9]))
 
             connection.commit()
@@ -51,17 +51,18 @@ class RDSClient(StorageClient):
             with connection.cursor() as cursor:
                 # create table
                 sql = """CREATE TABLE IF NOT EXISTS Stock (
-                        Ticker  VARCHAR(5) NOT NULL,
-                        Date VARCHAR(10) NOT NULL,
-                        Open FLOAT NOT NULL,
-                        High FLOAT NOT NULL,
-                        Low  FLOAT NOT NULL,
-                        Close FLOAT NOT NULL,
-                        Volume FLOAT NOT NULL,
-                        ExDividend FLOAT NOT NULL,
-                        SplitRatio FLOAT NOT NULL,
-                        AdjOpen FLOAT NOT NULL,
-                        PRIMARY KEY (Ticker, Date)
+                        stockId INT(11) NOT NULL AUTO_INCREMENT,
+                        ticker  VARCHAR(5) NOT NULL,
+                        date VARCHAR(10) NOT NULL,
+                        open FLOAT NOT NULL,
+                        high FLOAT NOT NULL,
+                        low  FLOAT NOT NULL,
+                        close FLOAT NOT NULL,
+                        volume FLOAT NOT NULL,
+                        ex_dividend FLOAT NOT NULL,
+                        split_ratio FLOAT NOT NULL,
+                        adj_open FLOAT NOT NULL,
+                        PRIMARY KEY (stockId)
                     )"""
                 cursor.execute(sql)
                 self.logger.info("SUCCESS: Table ready")
